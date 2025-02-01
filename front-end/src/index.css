@@ -1,0 +1,41 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.bg-light {
+    border-right: 1px solid #dee2e6;
+    /* Optional: Add border to the sidebar */
+}
+
+
+
+.login-page {
+    background-color: #f8f9fa;
+}
+
+.login-image img {
+    max-width: 600px;
+    max-height: 800px;
+
+}
+
+.login-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-container {
+    display: flex;
+    height: 500px;
+    align-items: center;
+}
