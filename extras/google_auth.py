@@ -1,6 +1,6 @@
 import httpx
 from fastapi import HTTPException
-from config import GOOGLE_CLIENT_ID
+from extras.config import GOOGLE_CLIENT_ID
 
 GOOGLE_OAUTH_URL = "https://www.googleapis.com/oauth2/v3/tokeninfo"
 
