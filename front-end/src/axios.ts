@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: "http://127.0.0.1:5000", // Flask backend URL
+  baseURL: "http://127.0.0.1:8000", // Flask backend URL
   timeout: 10000, // Request timeout in milliseconds
 });
 

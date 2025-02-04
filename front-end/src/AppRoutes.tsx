@@ -2,15 +2,15 @@ import { Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import BudgetDetails from "./components/BudgetDetails";
 import IncomeDetails from "./components/IncomeDetails";
-import Login from "./components/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./pages/Layout";
+import LoginRegister from "./pages/LoginRegister";
 
 const AppRoutes = () => {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<LoginRegister />} />
 
       {/* Protected Routes with Layout */}
       <Route
