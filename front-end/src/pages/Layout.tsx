@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
-import { Container, Row, Col, Navbar, Button } from "react-bootstrap";
+import { Container, Row, Col, Navbar } from "react-bootstrap";
 import SideBar from "./Layout2";
+import Logout from "../components/Logout";
 
 const Layout = () => {
   return (
@@ -22,7 +23,7 @@ const Layout = () => {
           <Navbar bg="primary" variant="dark" expand="lg">
             <Container fluid>
               <Navbar.Brand>Dashboard Menu</Navbar.Brand>
-              <Button
+              {/* <Button
                 variant="success"
                 onClick={() => {
                   localStorage.removeItem("access_token");
@@ -30,7 +31,8 @@ const Layout = () => {
                 }}
               >
                 Logout
-              </Button>
+              </Button> */}
+              <Logout />
             </Container>
           </Navbar>
 

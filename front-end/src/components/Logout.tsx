@@ -1,19 +1,36 @@
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../axios";
 
 const Logout = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    // Clear the session storage
-    sessionStorage.removeItem("access_token");
+  const handleLogout = async () => {
+    const token = sessionStorage.getItem("access_token");
 
-    // Redirect to the login page
-    navigate("/login");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      await axiosInstance.post(
+        "/logout",
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      sessionStorage.removeItem("access_token");
+      window.location.href = "/login"; // Force redirect
+    }
   };
 
   return (
     <button onClick={handleLogout} style={logoutButtonStyle}>
-      Logout
+      Logout Back End
     </button>
   );
 };

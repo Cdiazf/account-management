@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean
-from sqlalchemy.orm import relationship
-from .database import Base
+from ..database import Base
 
 class User(Base):
     __tablename__ = "users"
@@ -11,4 +10,5 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     roles = Column(String(100), default="user")  # Storing roles as comma-separated string
     verified = Column(Boolean, default=False)  # ✅ Add this line
+
 
