@@ -10,3 +10,5 @@ class User(Base):
     password = Column(String(100), nullable=False)
     is_active = Column(Boolean, default=True)
     roles = Column(String(100), default="user")  # Storing roles as comma-separated string
+    verified = Column(Boolean, default=False)  # ✅ Add this line
+

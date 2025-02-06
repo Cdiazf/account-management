@@ -15,7 +15,7 @@ class UserResponse(BaseModel):
     username: str
     email: EmailStr
     roles: List[str]
-
+    verified: bool  # Added verified field
     class Config:
         from_attributes = True
 
