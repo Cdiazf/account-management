@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import axiosInstance from "../axios";
 
 interface JwtPayload {
   exp?: number;
@@ -22,6 +23,21 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
       sessionStorage.removeItem("access_token");
       return <Navigate to="/login" />;
     }
+
+    // Check with the backend if the token is blacklisted
+    const verifyToken = async () => {
+      try {
+        await axiosInstance.get("/verify-token", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      } catch (error) {
+        console.error("Token is blacklisted:", error);
+        sessionStorage.removeItem("access_token");
+        return <Navigate to="/login" />;
+      }
+    };
+
+    verifyToken();
 
     // Token is valid, allow access
     return children;

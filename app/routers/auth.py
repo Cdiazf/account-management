@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
-from .. import schemas, utils
+
+from app.utils import utils
+from .. import schemas
 from ..services import user_service
 from ..dependencies import get_db
 import google.auth.transport.requests
@@ -56,3 +58,16 @@ def google_auth(request: Request):
         return {"message": "Google authentication successful", "user_info": id_info}
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid Google token")
+    
+
+
+
+@router.post("/logout")
+def logout(request: Request, db: Session = Depends(get_db)):
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Invalid session")
+    token = auth_header.split(" ")[1]
+    utils.blacklist_token(db, token)
+    return {"message": "Logged out successfully"}
+    

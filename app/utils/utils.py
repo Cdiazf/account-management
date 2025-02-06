@@ -7,6 +7,9 @@ from jose import jwt, JWTError
 import os
 from datetime import datetime, timedelta
 from jinja2 import Template
+from requests import Session
+
+from app.models.BlacklistedToken import BlacklistedToken
 
 
 
@@ -71,3 +74,14 @@ async def send_verification_email(email: str, token: str):
     )
     fm = FastMail(conf)
     await fm.send_message(message)
+
+
+def blacklist_token(db: Session, token: str):
+        blacklisted = BlacklistedToken(token=token)
+        db.add(blacklisted)
+        db.commit()
+        
+
+def is_token_blacklisted(db: Session, token: str) -> bool:
+        return db.query(BlacklistedToken).filter_by(token=token).first() is not None
+
