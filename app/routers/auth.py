@@ -11,16 +11,40 @@ router = APIRouter()
 @router.post("/login", response_model=schemas.Token)
 def login_user(user: schemas.UserLogin, db: Session = Depends(get_db)):
     db_user = user_service.authenticate_user(db, user.email, user.password)
+    
     if not db_user:
         raise HTTPException(status_code=400, detail="Invalid credentials")
+    
+    # ✅ Check if the user's email is verified
+    if not db_user.verified:
+        # Generate a new verification token
+        verification_token = utils.create_access_token({"sub": db_user.email})
+        
+        # Send the verification email again
+        utils.send_verification_email(db_user.email, verification_token)
+        
+        raise HTTPException(
+            status_code=400,
+            detail="Email not verified. A new verification email has been sent. Please verify your email before logging in."
+        )
+    
     access_token = utils.create_access_token({"sub": db_user.email})
+    
     user_data = schemas.UserResponse(
         id=db_user.id, 
         username=db_user.username, 
         email=db_user.email, 
-        roles=db_user.roles.split(",")
+        roles=db_user.roles.split(","),
+        verified=db_user.verified
     )
-    return {"access_token": access_token, "token_type": "bearer", "user": user_data, "message": "Login successful"}
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": user_data,
+        "message": "Login successful"
+    }
+
 
 @router.post("/auth/google")
 def google_auth(request: Request):
